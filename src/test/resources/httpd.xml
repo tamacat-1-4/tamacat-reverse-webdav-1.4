@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans>
+	<bean id="gzip" class="org.tamacat.httpd.filter.GzipResponseInterceptor">
+		<property name="contentType">
+			<value>html,xml,css,javascript</value>
+		</property>
+	</bean>
+	
+	<bean id="debug-request" class="org.tamacat.httpd.webdav.DebugRequestInterceptor" />
+	<bean id="debug-response" class="org.tamacat.httpd.webdav.DebugResponseInterceptor" />
+
+	<bean id="webdavRequestFactory" class="org.tamacat.httpd.webdav.WebDavHttpRequestFactory" />
+	<bean id="executor" class="org.tamacat.httpd.core.DefaultWorkerExecutor">
+		<property name="httpRequestFactory">
+			<ref bean="webdavRequestFactory" />
+		</property>
+	</bean>
+
+	<bean id="server" class="org.tamacat.httpd.core.HttpEngine">
+		<property name="propertiesName">
+			<value>server.properties</value>
+		</property>
+		<property name="workerExecutor">
+			<ref bean="executor" />
+		</property>
+		<!--
+		<property name="httpInterceptor">
+			<ref bean="gzip" />
+		</property>
+		<property name="httpInterceptor">
+			<ref bean="debug-request" />
+		</property>
+		<property name="httpInterceptor">
+			<ref bean="debug-response" />
+		</property>
+		-->
+		
+	</bean>
+
+</beans>

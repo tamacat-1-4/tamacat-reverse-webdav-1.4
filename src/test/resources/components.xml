@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans>
+	<bean id="AccessLogFilter" class="org.tamacat.httpd.filter.AccessLogFilter" />
+
+	<bean id="PerformanceCounterFilter" class="org.tamacat.httpd.filter.PerformanceCounterFilter" />
+	<bean id="HeaderLoggingFilter" class="org.tamacat.httpd.filter.HeaderLoggingFilter" />
+
+	<bean id="VelocityHandler"
+		class="org.tamacat.httpd.handler.VelocityHttpHandler">
+		<property name="docsRoot">
+			<value>${server.home}/src/test/resources/htdocs/root/</value>
+		</property>
+		<property name="httpFilter">
+			<ref bean="AccessLogFilter" />
+		</property>
+	</bean>
+
+	<bean id="DefaultHandler"
+		class="org.tamacat.httpd.handler.LocalFileStreamingHttpHandler">
+		<property name="httpFilter">
+			<ref bean="AccessLogFilter" />
+		</property>
+		<property name="docsRoot">
+			<value>${server.home}/src/test/resources/htdocs/test/</value>
+		</property>
+		<property name="listings">
+			<value>true</value>
+		</property>
+	</bean>
+
+
+	<bean id="ReverseHandler"
+		class="org.tamacat.httpd.webdav.WebDavReverseProxyHandler">
+		<property name="httpFilter">
+			<ref bean="AccessLogFilter" />
+		</property>
+		<!--
+		<property name="httpFilter">
+			<ref bean="HeaderLoggingFilter" />
+		</property>
+		-->
+		<property name="httpFilter">
+			<ref bean="PerformanceCounterFilter" />
+		</property>
+		<property name="httpResponseInterceptor" mode="add">
+			<ref bean="html" />
+		</property>
+	</bean>
+
+	<bean id="html" class="org.tamacat.httpd.filter.HtmlLinkConvertInterceptor">
+		<property name="contentType">
+			<value>html</value>
+		</property>
+	</bean>
+</beans>
