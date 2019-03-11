@@ -47,7 +47,7 @@ public class WebDavHttpRequestFactory extends StandardHttpRequestFactory {
 
 	public HttpRequest newHttpRequest(RequestLine requestline)
 			throws MethodNotSupportedException {
-		LOG.debug(requestline);
+		LOG.trace(requestline);
 		if (requestline == null) {
 			throw new IllegalArgumentException("Request line may not be null");
 		}
@@ -72,8 +72,7 @@ public class WebDavHttpRequestFactory extends StandardHttpRequestFactory {
 
 	public HttpRequest newHttpRequest(final String method, String uri)
 			throws MethodNotSupportedException {
-		LOG.debug(method + " " + uri);
-		uri = RequestUtils.getRequestPath(uri);
+		LOG.trace(method + " " + uri);
 		if (isOneOf(RFC2616_COMMON_METHODS, method)) {
 			return new BasicHttpEntityEnclosingRequest(method, uri);
 		} else if (isOneOf(RFC2616_ENTITY_ENC_METHODS, method)) {
