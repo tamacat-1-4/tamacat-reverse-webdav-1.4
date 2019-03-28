@@ -1,5 +1,5 @@
 Implementation-Title: tamacat-reverse-webdav
-Implementation-Version: 1.4-20190311
+Implementation-Version: 1.4-20190328
 Bundle-ManifestVersion: 2
 Bundle-SymbolicName: org.tamacat.httpd.webdav
 Bundle-Name: tamacat-reverse-webdav
